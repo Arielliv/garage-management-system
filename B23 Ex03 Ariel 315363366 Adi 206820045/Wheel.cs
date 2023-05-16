@@ -1,9 +1,9 @@
 ﻿namespace Ex03.GarageLogic
 {
-    class Wheel
+    public class Wheel
     {
         private readonly string r_ManifacturerName;
-        private readonly float r_MaxAirPressure;
+        private float r_MaxAirPressure;
         private float m_CurrentAirPressure;
 
         internal void inflate(float i_AirAmount)
@@ -14,6 +14,13 @@
             {
                 this.m_CurrentAirPressure = potentialAirPressure;
             }
+        }
+
+        public Wheel(string i_ManifacturerName, float i_MaxAirPressure, float i_CurrentAirPressure)
+        {
+            this.r_ManifacturerName = i_ManifacturerName;
+            this.r_MaxAirPressure = i_MaxAirPressure;
+            this.m_CurrentAirPressure = i_CurrentAirPressure;
         }
     }
 }

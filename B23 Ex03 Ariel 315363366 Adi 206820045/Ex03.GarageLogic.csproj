@@ -43,12 +43,19 @@
     <Compile Include="eCarColors.cs" />
     <Compile Include="eCarDoorsAmounts.cs" />
     <Compile Include="eFuelTypes.cs" />
+    <Compile Include="eGarageMenuOptions.cs" />
+    <Compile Include="ElectricEnergySource.cs" />
     <Compile Include="eLicenseTypes.cs" />
     <Compile Include="eVehicleEnergyTypes.cs" />
+    <Compile Include="eVehicleStatuses.cs" />
+    <Compile Include="eVehicleTypes.cs" />
+    <Compile Include="FuelEnergySource.cs" />
+    <Compile Include="GarageManager.cs" />
     <Compile Include="Motorcycle.cs" />
     <Compile Include="Truck.cs" />
     <Compile Include="Vehicle.cs" />
-    <Compile Include="VehicleEnergy.cs" />
+    <Compile Include="VehicleEnergySource.cs" />
+    <Compile Include="VehicleInfo.cs" />
     <Compile Include="Wheel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
