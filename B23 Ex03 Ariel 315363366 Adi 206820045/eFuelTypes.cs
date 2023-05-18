@@ -2,9 +2,9 @@
 {
     public enum eFuelTypes
     {
-        Soler,
-        Octan95,
-        Octan96,
-        Octan98
+        Soler = 0,
+        Octan95 = 1,
+        Octan96 = 2,
+        Octan98 = 3
     }
 }

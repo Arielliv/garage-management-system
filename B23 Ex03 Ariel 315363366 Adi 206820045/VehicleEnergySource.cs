@@ -1,6 +1,6 @@
 ﻿namespace Ex03.GarageLogic
 {
-    public class VehicleEnergySource
+    public abstract class VehicleEnergySource
     {
         private float m_CurrentEnergyAmount;
         private float m_MaxEnergyAmount;
@@ -16,5 +16,7 @@
             get { return this.m_MaxEnergyAmount; }
             set { this.m_MaxEnergyAmount = value; }
         }
+
+        public abstract string GetInfo();
     }
 }

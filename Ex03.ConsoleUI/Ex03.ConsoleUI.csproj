@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="ConsoleManager.cs" />
     <Compile Include="eGarageMenuOptions.cs" />
+    <Compile Include="InputValidations.cs" />
     <Compile Include="Program.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

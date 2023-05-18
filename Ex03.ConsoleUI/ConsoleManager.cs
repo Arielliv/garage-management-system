@@ -7,6 +7,7 @@ namespace Ex03.ConsoleUI
     public class ConsoleManager
     {
         private readonly GarageManager r_GarageManager = new GarageManager();
+        private Vehicle m_NewVehicle;
 
         public void GarageManager()
         {
@@ -22,30 +23,30 @@ namespace Ex03.ConsoleUI
                     switch (userChoice)
                     {
                         case eGarageMenuOptions.AddNewVehicle:
-                            //AddNewVehicleToTheGarage();
+                            AddNewVehicleToTheGarage();
                             break;
-                        /*case eGarageMenuOptions.ShowVehicleLicenseNumbers:
-                            showVehicleLicenseNumber();
+                        case eGarageMenuOptions.ShowVehicleLicenseNumbers:
+                            this.showVehicleLicenseNumber();
                             break;
                         case eGarageMenuOptions.UpdateVehicleStatus:
-                            updateVehicleStatus(GetLicenseNumber());
+                            this.updateVehicleStatusInGarage();
                             break;
                         case eGarageMenuOptions.InflateWheels:
-                            inflateWheels(GetLicenseNumber());
+                            this.inflateWheels();
                             break;
                         case eGarageMenuOptions.FillFuelVehicle:
-                            fillFuelVehicle(GetLicenseNumber());
+                            this.fillFuelVehicle();
                             break;
                         case eGarageMenuOptions.ChargeElectricVehicle:
-                            chargeElectricVehicle(GetLicenseNumber());
+                            this.chargeElectricVehicle();
                             break;
                         case eGarageMenuOptions.ShowFullVehicleInformation:
-                            showFullVehicleInformation(GetLicenseNumber());
+                            this.showFullVehicleInformation();
                             break;
                         case eGarageMenuOptions.Exit:
                             stayInTheGarage = false;
                             Console.WriteLine("Goodbye, Thank you for choosing our garage");
-                            break;*/
+                            break;
                         default:
                             Console.WriteLine("Invalid number! Please try again");
                             break;
@@ -91,173 +92,150 @@ namespace Ex03.ConsoleUI
 8. Exit menu
 "));
         }
-/*
-        private string GetLicenseNumber()
+        private void setVehicleEnergySource()
         {
-            Console.WriteLine("Please enter your vehicle license number: ");
-            string licenseNumber = Console.ReadLine();
-            bool isExist = r_GarageManager.IsVehicleExistInGarage(licenseNumber);
-            if (!isExist)
-            {
-                throw new ArgumentException("The vehicle has not been registered in the garage (yet)!");
-            }
-
-            return licenseNumber;
-        }
-
-        private void getVehicleEnergySource()
-        {
-            int numberOfInputOptions = Enum.GetNames(typeof(eVehicleEnergyTypes)).Length;
             bool isValidInput = false;
+
             while (!isValidInput)
             {
-                Console.WriteLine(string.Format(@"Please enter the vehicle appropriate energy source:
-0 - Fuel
-1 - Electric
-"));
-                int vehicleEnergySource = Validator.ValidateUserInput(Console.ReadLine(), numberOfInputOptions);
-                if (vehicleEnergySource != ConstValues.k_InValid)
-                {
-                    bool isFuel = vehicleEnergySource == (int)eVehicleEnergyTypes.Fuel;
-                    bool isElectricity = vehicleEnergySource == (int)eVehicleEnergyTypes.Electric;
-                    if ((isFuel && !m_NewVehicle.FuelEnergySource) || (isElectricity && !m_NewVehicle.ElectricityEnergySource))
-                    {
-                        Console.WriteLine("Unfortunately our garage doesn't accept such vehicles");
-                        continue;
-                    }
+                Console.WriteLine(string.Format(@"Please enter the vehicle energy source:
+        0 - Fuel
+        1 - Electric
+        "));
+                string vehicleEnergySourceInput = Console.ReadLine();
+                eVehicleEnergyTypes vehicleEnergyType;
 
-                    isValidInput = true;
-                    m_NewVehicle.EnergySourceType = (eVehicleEnergyTypes)vehicleEnergySource;
-                }
-                else
+                if (!(Enum.TryParse(vehicleEnergySourceInput, out vehicleEnergyType)
+                && Enum.IsDefined(typeof(eVehicleEnergyTypes), vehicleEnergyType)))
                 {
                     Console.WriteLine("Invalid input of energy source");
+                } 
+                else
+                {
+                    isValidInput = true;
+                    if (vehicleEnergyType == eVehicleEnergyTypes.Fuel)
+                    {
+                        this.m_NewVehicle.SetVehicleEnergyAsFuel();
+                    } 
+                    else
+                    {
+                        this.m_NewVehicle.SetVehicleEnergyAsElectric();
+                    }
                 }
             }
         }
 
-        private void SetMaximalEnergySourceValue()
-        {
-            if (eVehicleEnergyTypes.Fuel.Equals(m_NewVehicle.EnergySourceType))
-            {
-                m_NewVehicle.SetFuelMaximalQuantity();
-            }
-            else
-            {
-                m_NewVehicle.SetElectricMaximalQuantity();
-            }
-        }
-
-        private float GetCurrentEnergySourceQuantity()
+        private void setCurrentEnergySourceQuantity()
         {
             bool isValidInput = false;
-            float energySourceQuantity = 0f;
+
             while (!isValidInput)
             {
                 Console.WriteLine("Please enter your current energy source quantity: ");
-                bool isSuccessfulParse = Validator.IsFloatInput(Console.ReadLine(), ref energySourceQuantity);
-                if (isSuccessfulParse)
+                string energySourceQuantityInput = Console.ReadLine();
+                float energySourceQuantity = 0f;
+
+                if (!(float.TryParse(energySourceQuantityInput, out energySourceQuantity) &&  energySourceQuantity <= this.m_NewVehicle.VehicleEnergySource.MaxEnergyAmount && energySourceQuantity > 0))
                 {
-                    float maximalEnergySourceQuantity = m_NewVehicle.EnergySource.MaximalEnergySourceQuantity;
-                    if (energySourceQuantity <= maximalEnergySourceQuantity && energySourceQuantity >= ConstValues.k_MinValue)
-                    {
-                        isValidInput = true;
-                    }
-                    else
-                    {
-                        Console.WriteLine("Invalid Input!");
-                    }
+                    Console.WriteLine("Invalid amount of energy source");
                 }
                 else
                 {
-                    Console.WriteLine("Please make sure to insert a float number!");
+                    isValidInput = true;
+                    this.m_NewVehicle.VehicleEnergySource.CurrentEnergyAmount = energySourceQuantity;
                 }
             }
-
-            return energySourceQuantity;
         }
 
-        private void SetMinimalEnergySourceValue()
-        {
-            m_NewVehicle.SetCurrentEnergySourceQuantity(GetCurrentEnergySourceQuantity());
-        }
-
-        private void SetRegistrationInformation()
+        private void SetVehicleInformation()
         {
             Console.WriteLine("Please enter your name: ");
             string ownerName = Console.ReadLine();
-            string ownerPhoneNumber = string.Empty;
+            string ownerPhoneNumberInput = null;
+            int ownerPhoneNumber;
             bool isValidInput = false;
+
             while (!isValidInput)
             {
                 Console.WriteLine("Please enter your phone number: ");
-                ownerPhoneNumber = Console.ReadLine();
-                if (Validator.NumbersOnlyInput(ownerPhoneNumber))
+                ownerPhoneNumberInput = Console.ReadLine();
+                if (!int.TryParse(ownerPhoneNumberInput, out ownerPhoneNumber))
                 {
-                    isValidInput = true;
+                    Console.WriteLine("Please make sure that your phone number contains numbers only!");
                 }
                 else
                 {
-                    Console.WriteLine("Please make sure that your phone number contains numbers only!");
+                    isValidInput = true;
                 }
             }
 
             m_NewVehicle.SetRegistrationInformation(ownerName, ownerPhoneNumber);
         }
 
-        private void SetWheelsInformation()
-        {
-            foreach (Wheel wheel in m_NewVehicle.WheelCollection)
-            {
-                bool isValidInput = false;
-                while (!isValidInput)
+
+        /*
+
+
+       
+
+                
+                
+
+               
+
+                private void SetWheelsInformation()
                 {
-                    Console.WriteLine("Please enter the wheel's current air pressure: ");
-                    float airPressure = 0f;
-                    bool isSuccessfulParse = Validator.IsFloatInput(Console.ReadLine(), ref airPressure);
-                    if (isSuccessfulParse)
+                    foreach (Wheel wheel in m_NewVehicle.WheelCollection)
                     {
-                        if (airPressure <= wheel.MaxAirPressure && airPressure >= ConstValues.k_MinValue)
+                        bool isValidInput = false;
+                        while (!isValidInput)
                         {
-                            isValidInput = true;
-                            wheel.CurrentAirPressure = airPressure;
+                            Console.WriteLine("Please enter the wheel's current air pressure: ");
+                            float airPressure = 0f;
+                            bool isSuccessfulParse = Validator.IsFloatInput(Console.ReadLine(), ref airPressure);
+                            if (isSuccessfulParse)
+                            {
+                                if (airPressure <= wheel.MaxAirPressure && airPressure >= ConstValues.k_MinValue)
+                                {
+                                    isValidInput = true;
+                                    wheel.CurrentAirPressure = airPressure;
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Invalid Input!");
+                                    continue;
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("Invalid Input ! please insert a float");
+                            }
                         }
-                        else
-                        {
-                            Console.WriteLine("Invalid Input!");
-                            continue;
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("Invalid Input ! please insert a float");
+
+                        Console.WriteLine("Please enter the wheel's manufacturer:");
+                        string manufacturerName = Console.ReadLine();
+                        wheel.ManufacturerName = manufacturerName;
                     }
                 }
 
-                Console.WriteLine("Please enter the wheel's manufacturer:");
-                string manufacturerName = Console.ReadLine();
-                wheel.ManufacturerName = manufacturerName;
-            }
-        }
-
-        private void SetUniqueProperties(Dictionary<int, string> i_Messages)
-        {
-            foreach (KeyValuePair<int, string> pair in i_Messages)
-            {
-                bool isValidInput = false;
-                while (!isValidInput)
+                private void SetUniqueProperties(Dictionary<int, string> i_Messages)
                 {
-                    Console.WriteLine($"Please enter {pair.Value}");
-                    string userInput = Console.ReadLine();
-                    isValidInput = m_NewVehicle.SetUniqueInformation(userInput, pair.Key);
-                    if (!isValidInput)
+                    foreach (KeyValuePair<int, string> pair in i_Messages)
                     {
-                        Console.WriteLine("Invalid Input!");
+                        bool isValidInput = false;
+                        while (!isValidInput)
+                        {
+                            Console.WriteLine($"Please enter {pair.Value}");
+                            string userInput = Console.ReadLine();
+                            isValidInput = m_NewVehicle.SetUniqueInformation(userInput, pair.Key);
+                            if (!isValidInput)
+                            {
+                                Console.WriteLine("Invalid Input!");
+                            }
+                        }
                     }
                 }
-            }
-        }
-
+        */
         private void showVehicleLicenseNumber()
         {
             List<string> licenseNumbers;
@@ -267,24 +245,24 @@ namespace Ex03.ConsoleUI
 2 - Paid vehicles
 3 - All vehicles
 "));
-            int numberOfInputOptions = Enum.GetNames(typeof(eFilterByStatus)).Length;
-            int filterByStatus = Validator.ValidateUserInput(Console.ReadLine(), numberOfInputOptions);
-            if (filterByStatus == ConstValues.k_InValid)
+            //int numberOfInputOptions = Enum.GetNames(typeof(eFilterVehicleByStatuses)).Length;
+            string filterVehicleByStatusesInput = Console.ReadLine();
+            eFilterVehicleByStatuses filterVehicleByStatuses;
+
+            if (!(Enum.TryParse(filterVehicleByStatusesInput, out filterVehicleByStatuses)
+                && Enum.IsDefined(typeof(eFilterVehicleByStatuses), filterVehicleByStatuses)))
             {
-                throw new FormatException("Format exception has occurred");
+                throw new FormatException("Selected filter in not defined");
             }
 
-            licenseNumbers = r_GarageManager.SetLicenseNumbersList((eFilterByStatus)filterByStatus);
+            licenseNumbers = r_GarageManager.GetLicenseNumbersByFilter(filterVehicleByStatuses);
             if (licenseNumbers.Count == 0)
             {
-                Console.WriteLine(
-                    filterByStatus == (int)eFilterByStatus.AllVehicles
-                        ? "There are no vehicles in the garage"
-                        : "There are no vehicles in the chosen status");
+                Console.WriteLine("No vehicles were found for the selected filter");
             }
             else
             {
-                Console.WriteLine("The vehicles are:");
+                Console.WriteLine("The founded vehicle license numbers are:");
                 foreach (string licenseNumber in licenseNumbers)
                 {
                     Console.WriteLine(licenseNumber);
@@ -292,73 +270,106 @@ namespace Ex03.ConsoleUI
             }
         }
 
-        private void updateVehicleStatus(string i_LicenseNumber)
+        private void updateVehicleStatusInGarage()
         {
-            Console.WriteLine(string.Format(@"Please enter your new desired car status: 
-0 - In repair vehicle
-1 - Repaired vehicle
-2 - Paid vehicle
-"));
-            int numberOfInputOptions = Enum.GetNames(typeof(eVehicleStatus)).Length;
-            int filterByStatus = Validator.ValidateUserInput(Console.ReadLine(), numberOfInputOptions);
-            if (filterByStatus == ConstValues.k_InValid)
+            string licenseNumber = getLicenseNumberFromUser();
+
+            Console.WriteLine(string.Format(@"Please enter the new vehicle status: 
+        0 - In repair
+        1 - Repaired
+        2 - Paid
+        "));
+            string newVehicleStatusInput = Console.ReadLine();
+            eVehicleStatuses newVehicleStatus;
+
+            if (!(Enum.TryParse(newVehicleStatusInput, out newVehicleStatus)
+                && Enum.IsDefined(typeof(eVehicleStatuses), newVehicleStatus)))
             {
-                throw new FormatException("Format exception has occurred");
+                throw new FormatException("Selected status in not defined");
             }
 
-            r_Garage.SetVehicleStatus(i_LicenseNumber, (eVehicleStatus)filterByStatus);
+            this.r_GarageManager.SetVehicleStatus(licenseNumber, newVehicleStatus);
         }
 
-        private void inflateWheels(string i_LicenseNumber)
+        private string getLicenseNumberFromUser()
         {
-            this.r_GarageManager.InflateWheelToMax(i_LicenseNumber);
-        }
+            Console.Write("Please enter the vehicle's license number: ");
+            string licenseNumber = Console.ReadLine();
+            bool isCarExistInGarage = this.r_GarageManager.IsVehicleExistInGarage(licenseNumber);
 
-        private void fillFuelVehicle(string i_LicenseNumber)
-        {
-            if (this.r_GarageManager.RegisteredGarageVehicles[i_LicenseNumber].EnergySource is Electric)
+            if(!isCarExistInGarage)
             {
-                Console.WriteLine("The vehicle's energy source is not Fuel!");
-
-                return;
+                throw new ArgumentException("No vehicle's found with the given license number");
             }
 
-            Console.WriteLine("Please enter the required Fuel quantity: ");
-            float fuelDesiredQuantity = 0f;
-            bool isSuccessfulParse = Validator.IsFloatInput(Console.ReadLine(), ref fuelDesiredQuantity);
-            if (!isSuccessfulParse)
-            {
-                throw new FormatException("Format exception has occurred");
-            }
-
-            eFuelTypes fuelType = (this.r_GarageManager.RegisteredGarageVehicles[i_LicenseNumber].EnergySource as FuelEnergySource).FuelType;
-            r_Garage.Fueling(i_LicenseNumber, fuelType, fuelDesiredQuantity);
+            return licenseNumber;
         }
 
-        private void chargeElectricVehicle(string i_LicenseNumber)
+        private void inflateWheels()
         {
-            if (this.r_GarageManager.RegisteredGarageVehicles[i_LicenseNumber].EnergySource is FuelEnergySource)
-            {
-                Console.WriteLine("The vehicle's energy source is not electricity!");
-
-                return;
-            }
-
-            Console.WriteLine("Please enter the time (in minutes) charging the vehicle");
-            float chargingMinutes = 0f;
-            bool isSuccessfulParse = Validator.IsFloatInput(Console.ReadLine(), ref chargingMinutes);
-            if (!isSuccessfulParse)
-            {
-                throw new FormatException("Format exception has occurred");
-            }
-
-            float chargingHours = (float)(chargingMinutes / ConstValues.k_MinutesInHour);
-            this.r_GarageManager.ElectricCharging(i_LicenseNumber, chargingHours);
+            string licenseNumber = getLicenseNumberFromUser();
+            this.r_GarageManager.InflateVehicleWheels(licenseNumber);
         }
 
-        private void showFullVehicleInformation(string i_LicenseNumber)
+        private void fillFuelVehicle()
         {
-            Console.WriteLine(this.r_GarageManager.VehicleString(i_LicenseNumber));
+            string licenseNumber = getLicenseNumberFromUser();
+
+            if (this.r_GarageManager.GetVehicleEnergyType(licenseNumber) != eVehicleEnergyTypes.Fuel)
+            {
+                throw new ArgumentException("The vehicle's energy source is not fuel");
+            }
+
+            Console.WriteLine(@"Please enter the Fuel type: 
+        0 - Soler,
+        1 - Octan95,
+        2 - Octan96,
+        3 - Octan98");
+            string fuelTypeInput = Console.ReadLine();
+            eFuelTypes fuelType;
+
+            if (!(Enum.TryParse(fuelTypeInput, out fuelType)
+                && Enum.IsDefined(typeof(eFuelTypes), fuelType)))
+            {
+                throw new FormatException("Selected fuel in not defined");
+            }
+
+            Console.WriteLine("Please enter the fuel amount to fill: ");
+            float fuelAmount;
+
+            if (!float.TryParse(Console.ReadLine(), out fuelAmount))
+            {
+                throw new FormatException("The given input is not a number");
+            }
+
+            this.r_GarageManager.FillVehicleFuel(licenseNumber, fuelAmount, fuelType);
         }
-*/    }
+
+        private void chargeElectricVehicle()
+        {
+            string licenseNumber = getLicenseNumberFromUser();
+
+            if (this.r_GarageManager.GetVehicleEnergyType(licenseNumber) != eVehicleEnergyTypes.Electric)
+            {
+                throw new ArgumentException("The vehicle's energy source is not electric");
+            }
+
+            Console.WriteLine("Please enter the minutes to charge: ");
+            float fuelAmount;
+
+            if (!float.TryParse(Console.ReadLine(), out fuelAmount))
+            {
+                throw new FormatException("The given input is not a number");
+            }
+
+            this.r_GarageManager.ChargeVehicleEnergy(licenseNumber, fuelAmount);
+        }
+
+        private void showFullVehicleInformation()
+        {
+            string licenseNumber = getLicenseNumberFromUser();
+
+            Console.WriteLine(this.r_GarageManager.getFullVehicleInformation(licenseNumber));
+        }
+    }
 }
