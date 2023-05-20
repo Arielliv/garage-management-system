@@ -6,7 +6,6 @@ namespace Ex03.GarageLogic
     {
         private string m_OwnerName;
         private string m_OwnerPhone;
-        private eVehicleStatuses m_VehicleStatus;
 
         public VehicleInformation(string i_OwnerName, string i_OwnerPhone)
         {
@@ -14,18 +13,11 @@ namespace Ex03.GarageLogic
             this.m_OwnerPhone = i_OwnerPhone;
         }
 
-        public eVehicleStatuses VehicleStatus
-        {
-            get { return this.m_VehicleStatus; }
-            set { this.m_VehicleStatus = value; }
-        }
-
-        public string GetOwnerNameAndVehicleStatus()
+        public override string ToString()
         {
             StringBuilder info = new StringBuilder();
 
-            info.Append($"The owner name is: {m_OwnerName}\n");
-            info.Append($"The vehicle statuse is: {m_VehicleStatus}\n");
+            info.Append($"The owner name is: {this.m_OwnerName}\n");
 
             return info.ToString();
         }

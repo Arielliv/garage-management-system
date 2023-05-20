@@ -7,7 +7,7 @@ namespace Ex03.GarageLogic
     {
         private readonly Dictionary<string, Vehicle> r_VehiclesInGarage = new Dictionary<string, Vehicle>();
 
-        public Vehicle GetVehicleFromGarage(string i_LicenseNumber)
+        private Vehicle getVehicleFromGarage(string i_LicenseNumber)
         {
             return this.r_VehiclesInGarage[i_LicenseNumber];
         }
@@ -40,17 +40,17 @@ namespace Ex03.GarageLogic
 
         public void SetVehicleStatus(string i_LicenseNumber, eVehicleStatuses i_NewVehicleStatus)
         {
-            this.GetVehicleFromGarage(i_LicenseNumber).VehicleStatus = i_NewVehicleStatus;
+            this.getVehicleFromGarage(i_LicenseNumber).VehicleStatus = i_NewVehicleStatus;
         }
 
         public void InflateVehicleWheels(string i_LicenseNumber)
         {
-            this.GetVehicleFromGarage(i_LicenseNumber).InflateWheelsToMax();
+            this.getVehicleFromGarage(i_LicenseNumber).InflateWheelsToMax();
         }
 
         public eVehicleEnergyTypes GetVehicleEnergyType(string i_LicenseNumber)
         {
-            if(this.GetVehicleFromGarage(i_LicenseNumber).VehicleEnergySource is ElectricEnergySource)
+            if(this.getVehicleFromGarage(i_LicenseNumber).VehicleEnergySource is ElectricEnergySource)
             {
                 return eVehicleEnergyTypes.Electric;
             }
@@ -64,7 +64,7 @@ namespace Ex03.GarageLogic
         {
             try
             {
-                ((FuelEnergySource)this.GetVehicleFromGarage(i_LicenseNumber).VehicleEnergySource).FillFuel(i_FuelAmountToFill, i_FuelType);
+                ((FuelEnergySource)this.getVehicleFromGarage(i_LicenseNumber).VehicleEnergySource).FillFuel(i_FuelAmountToFill, i_FuelType);
 
             }
             catch (InvalidCastException)
@@ -77,7 +77,7 @@ namespace Ex03.GarageLogic
         {
             try
             {
-                ((ElectricEnergySource)this.GetVehicleFromGarage(i_LicenseNumber).VehicleEnergySource).ChargeEnergy(i_MinutesToCharge);
+                ((ElectricEnergySource)this.getVehicleFromGarage(i_LicenseNumber).VehicleEnergySource).ChargeEnergy(i_MinutesToCharge);
 
             }
             catch (InvalidCastException)
@@ -86,9 +86,9 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public string getFullVehicleInformation(string i_LicenseNumber)
+        public string GetFullVehicleInformation(string i_LicenseNumber)
         {
-            return this.GetVehicleFromGarage(i_LicenseNumber).GetInformation();   
+            return this.getVehicleFromGarage(i_LicenseNumber).ToString();   
         }
     }
 }

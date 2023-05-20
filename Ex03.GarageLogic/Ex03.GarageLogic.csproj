@@ -45,7 +45,6 @@
     <Compile Include="eCarSpecificInformation.cs" />
     <Compile Include="eFilterVehicleByStatuses.cs" />
     <Compile Include="eFuelTypes.cs" />
-    <Compile Include="eGarageMenuOptions.cs" />
     <Compile Include="ElectricEnergySource.cs" />
     <Compile Include="eLicenseTypes.cs" />
     <Compile Include="eMotorcycleSpecificInformation.cs" />

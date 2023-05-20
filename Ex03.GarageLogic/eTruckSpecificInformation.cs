@@ -2,7 +2,7 @@
 {
     public enum eTruckSpecificInformation
     {
-        TransportsHazardousMaterials,
-        CargoVolume
+        TransportsHazardousMaterials = 0,
+        CargoVolume = 1
     }
 }

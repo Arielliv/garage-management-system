@@ -8,12 +8,12 @@ namespace Ex03.GarageLogic
         private float m_MaxAirPressure;
         private float m_CurrentAirPressure = 0;
 
-        public Wheel(float i_MaxAirPressure)
+        internal Wheel(float i_MaxAirPressure)
         {
             this.m_MaxAirPressure = i_MaxAirPressure;
         }
 
-        public void setCurrentAirPressure(float i_CurrentAirPressure)
+        internal void SetCurrentAirPressure(float i_CurrentAirPressure)
         {
             if(i_CurrentAirPressure > this.m_MaxAirPressure || i_CurrentAirPressure < 0)
             {
@@ -25,23 +25,23 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public float MaxAirPressure
+        internal float MaxAirPressure
         {
             get { return this.m_MaxAirPressure; }
             set { this.m_MaxAirPressure = value; }
         }
 
-        public string ManifacturerName
+        internal string ManifacturerName
         {
             set { this.m_ManifacturerName = value; }
         }
 
         internal void InflateToMax()
         {
-            this.Inflate(this.MaxAirPressure - this.m_CurrentAirPressure);
+            this.inflate(this.MaxAirPressure - this.m_CurrentAirPressure);
         }
 
-        internal void Inflate(float i_AirAmount)
+        private void inflate(float i_AirAmount)
         {
             float potentialAirPressure = this.m_CurrentAirPressure + i_AirAmount;
 
@@ -55,7 +55,7 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public string GetManifacturerNameAndCurrentAirPressure()
+        public override string ToString()
         {
             StringBuilder info = new StringBuilder();
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 
 namespace Ex03.GarageLogic
@@ -16,15 +15,14 @@ namespace Ex03.GarageLogic
         internal Truck(string i_ModelName, string i_LicenseNumber) :
             base(i_ModelName, i_LicenseNumber, k_WheelsAmount, k_WheelsMaxAirPressure) { }
 
-
         public override bool SetSpecificInformation(string i_Message, int i_SpecificInformationNumber)
         {
+            bool transportsHazardousMaterials;
             bool isSuccessful = false;
+            float cargoVolume;
 
             if (i_SpecificInformationNumber == (int)eTruckSpecificInformation.TransportsHazardousMaterials)
             {
-                bool transportsHazardousMaterials;
-
                 if (bool.TryParse(i_Message, out transportsHazardousMaterials))
                 {
                     isSuccessful = true;
@@ -33,8 +31,6 @@ namespace Ex03.GarageLogic
             }
             else if (i_SpecificInformationNumber == (int)eTruckSpecificInformation.CargoVolume)
             {
-                float cargoVolume;
-
                 if (float.TryParse(i_Message, out cargoVolume))
                 {
                     isSuccessful = true;
@@ -50,15 +46,15 @@ namespace Ex03.GarageLogic
             base.r_SpecificInformationMessages.Add((int)eTruckSpecificInformation.CargoVolume,
                 "the trucks's cargo volume: ");
             base.r_SpecificInformationMessages.Add((int)eTruckSpecificInformation.TransportsHazardousMaterials,
-                "does your truck transport hazardous materials? True/False: ");
+                "does your truck transport hazardous materials? (True/False): ");
         }
 
-        public override string GetInformation()
+        public override string ToString()
         {
             StringBuilder info = new StringBuilder();
 
             info.Append($"This is a Truck\n");
-            info.Append(base.GetInformation());
+            info.Append(base.ToString());
             info.Append(this.m_TransportsHazardousMaterials ? "It transports hazardous materials": "It doesn`t transport hazardous materials\n");
             info.Append($"The cargo volume is: {this.m_CargoVolume}\n");
 

@@ -41,10 +41,6 @@ namespace Ex03.GarageLogic
             set { this.m_VehicleStatus = value; }
         }
 
-        public abstract void SetVehicleEnergyAsFuel();
-
-        public abstract void SetVehicleEnergyAsElectric();
-
         public void InflateWheelsToMax()
         {
             foreach (Wheel wheel in this.r_Wheels)
@@ -58,19 +54,20 @@ namespace Ex03.GarageLogic
             this.m_VehicleInformation = new VehicleInformation(i_OwnerName, i_OwnerPhone);
         }
 
-        public virtual string GetInformation()
+        public override string ToString()
         {
             StringBuilder info = new StringBuilder();
 
             info.Append($"The license number is: {r_LicenseNumber}\n");
             info.Append($"The model name is: {r_ModelName}\n");
-            info.Append(this.m_VehicleInformation.GetOwnerNameAndVehicleStatus()).Append("\n");
+            info.Append(this.m_VehicleInformation.ToString()).Append("\n");
+            info.Append($"The vehicle statuse is: {this.getVehicleStatus()}\n");
             foreach (Wheel wheel in this.r_Wheels)
             {
-                info.Append(wheel.GetManifacturerNameAndCurrentAirPressure()).Append("\n");
+                info.Append(wheel.ToString()).Append("\n");
             }
 
-            info.Append(this.VehicleEnergySource.GetInfo()).Append("\n");
+            info.Append(this.VehicleEnergySource.ToString()).Append("\n");
             info.Append($"The wheels amount is: {this.r_Wheels.Count}\n");
 
             return info.ToString();
@@ -80,7 +77,7 @@ namespace Ex03.GarageLogic
         {
             foreach(Wheel wheel in this.r_Wheels)
             {
-                wheel.setCurrentAirPressure(i_CurrentAirPressure);
+                wheel.SetCurrentAirPressure(i_CurrentAirPressure);
             }
         }
 
@@ -97,13 +94,39 @@ namespace Ex03.GarageLogic
             this.m_VehicleStatus = eVehicleStatuses.InRepair;
         }
 
-        public abstract void SetSpecificInformationMessages();
-
-        public abstract bool SetSpecificInformation(string i_Message, int i_SpecificInformationNumber);
-
         public Dictionary<int, string> GetSpecificInformation()
         {
             return this.r_SpecificInformationMessages;
         }
+
+        private string getVehicleStatus()
+        {
+            string vehicleStatuse = null;
+
+            switch (this.m_VehicleStatus)
+            {
+                case eVehicleStatuses.InRepair:
+                    vehicleStatuse = "in repair";
+                    break;
+                case eVehicleStatuses.Repaired:
+                    vehicleStatuse = "repaired";
+                    break;
+                case eVehicleStatuses.Paied:
+                    vehicleStatuse = "paied";
+                    break;
+                default:
+                    break;
+            }
+
+            return vehicleStatuse;
+        }
+
+        public abstract void SetVehicleEnergyAsFuel();
+
+        public abstract void SetVehicleEnergyAsElectric();
+
+        public abstract void SetSpecificInformationMessages();
+
+        public abstract bool SetSpecificInformation(string i_Message, int i_SpecificInformationNumber);
     }
 }

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Text;
+﻿using System.Text;
 using System;
 
 namespace Ex03.GarageLogic
@@ -20,11 +19,11 @@ namespace Ex03.GarageLogic
         public override bool SetSpecificInformation(string i_Message, int i_SpecificInformationNumber)
         {
             bool isSuccessful = false;
+            eCarColors carColor;
+            eCarDoorsAmounts carDoorsAmount;
 
             if (i_SpecificInformationNumber == (int)eCarSpecificInformation.Color)
             {
-                eCarColors carColor;
-
                 if (Enum.TryParse(i_Message, out carColor)
                     && Enum.IsDefined(typeof(eCarColors), carColor))
                 {
@@ -34,8 +33,6 @@ namespace Ex03.GarageLogic
             }
             else if (i_SpecificInformationNumber == (int)eCarSpecificInformation.DoorsNumber)
             {
-                eCarDoorsAmounts carDoorsAmount;
-
                 if (Enum.TryParse(i_Message, out carDoorsAmount)
                     && Enum.IsDefined(typeof(eCarDoorsAmounts), carDoorsAmount))
                 {
@@ -51,18 +48,18 @@ namespace Ex03.GarageLogic
         {
             base.r_SpecificInformationMessages.Add((int)eCarSpecificInformation.Color,
                 "the color of your car, press " +
-                "0 - White, 1 - Black, 2 - Yellow, 3 - Red: ");
+                "\n\t0 - White\n\t1 - Black\n\t2 - Yellow\n\t3 - Red: ");
             base.r_SpecificInformationMessages.Add((int)eCarSpecificInformation.DoorsNumber,
                 "the number of doors in your car, press " +
-                "0 - Two, 1 - Three, 2 - Four, 3 - Five: ");
+                "\n\t0 - Two\n\t1 - Three\n\t2 - Four\n\t3 - Five: ");
         }
 
-        public override string GetInformation()
+        public override string ToString()
         {
             StringBuilder info = new StringBuilder();
 
             info.Append($"This is a Car\n");
-            info.Append(base.GetInformation()).Append("\n");
+            info.Append(base.ToString()).Append("\n");
             info.Append($"Its color is: {this.getCarColor()}\n");
             info.Append($"Its doors amount is: {this.getCarDoorsAmount()}\n");
 

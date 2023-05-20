@@ -2,8 +2,8 @@
 {
     public enum eVehicleTypes
     {
-        Car,
-        Motorcycle,
-        Truck
+        Car = 0,
+        Motorcycle = 1,
+        Truck = 2
     }
 }

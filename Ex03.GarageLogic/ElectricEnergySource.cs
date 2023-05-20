@@ -3,9 +3,9 @@ using System.Text;
 
 namespace Ex03.GarageLogic
 {
-    public class ElectricEnergySource : VehicleEnergySource
+    internal class ElectricEnergySource : VehicleEnergySource
     {
-        public void ChargeEnergy(float i_MinutesToCharge)
+        internal void ChargeEnergy(float i_MinutesToCharge)
         {
             float potentialMinutes = base.CurrentEnergyAmount + i_MinutesToCharge;
 
@@ -19,7 +19,7 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public override string GetInfo()
+        public override string ToString()
         {
             StringBuilder info = new StringBuilder();
 

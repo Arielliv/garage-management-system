@@ -17,12 +17,12 @@ namespace Ex03.GarageLogic
         internal Motorcycle(string i_ModelName, string i_LicenseNumber) :
     base(i_ModelName, i_LicenseNumber, k_WheelsAmount, k_WheelsMaxAirPressure) { }
 
-        public override string GetInformation()
+        public override string ToString()
         {
             StringBuilder info = new StringBuilder();
 
             info.Append($"This is a Car\n");
-            info.Append(base.GetInformation()).Append("\n");
+            info.Append(base.ToString()).Append("\n");
             info.Append($"Its license type is: {this.getLicenseTypes()}\n");
             info.Append($"Its engine capacity is: {this.m_EngineCapacity}\n");
 
@@ -57,11 +57,11 @@ namespace Ex03.GarageLogic
         public override bool SetSpecificInformation(string i_Message, int i_SpecificInformationNumber)
         {
             bool isSuccessful = false;
+            int engineCapacity;
+            eLicenseTypes licenseType;
 
             if (i_SpecificInformationNumber == (int)eMotorcycleSpecificInformation.EngineCapacity)
             {
-                int engineCapacity;
-
                 if (int.TryParse(i_Message, out engineCapacity))
                 {
                     isSuccessful = true;
@@ -70,8 +70,6 @@ namespace Ex03.GarageLogic
             }
             else if (i_SpecificInformationNumber == (int)eMotorcycleSpecificInformation.LicenseType)
             {
-                eLicenseTypes licenseType;
-
                 if (Enum.TryParse(i_Message, out licenseType)
                     && Enum.IsDefined(typeof(eLicenseTypes), licenseType))
                 {
@@ -89,7 +87,7 @@ namespace Ex03.GarageLogic
                 "the motocycle's engine capacity: ");
             base.r_SpecificInformationMessages.Add((int)eMotorcycleSpecificInformation.LicenseType,
                 "the motorcycle license type, press " +
-                "0 - A1, 1 - A2, 2 - AA, 3 - B1: ");
+                "\n\t0 - A1\n\t1 - A2\n\t2 - AA\n\t3 - B1: ");
         }
 
         public override void SetVehicleEnergyAsFuel()

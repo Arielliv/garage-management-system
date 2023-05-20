@@ -11,7 +11,7 @@ namespace Ex03.ConsoleUI
 
         public void GarageManager()
         {
-            Console.WriteLine("Welcome to the garage!!");
+            Console.WriteLine("Welcome to our garage");
             bool stayInTheGarage = true;
 
             while (stayInTheGarage)
@@ -19,11 +19,13 @@ namespace Ex03.ConsoleUI
                 try
                 {
                     showGarageMenu();
-                    eGarageMenuOptions userChoice = (eGarageMenuOptions)Enum.Parse(typeof(eGarageMenuOptions), Console.ReadLine());
+                    eGarageMenuOptions userChoice = (eGarageMenuOptions)Enum.Parse(typeof(eGarageMenuOptions), 
+                        Console.ReadLine());
+                    
                     switch (userChoice)
                     {
                         case eGarageMenuOptions.AddNewVehicle:
-                            AddNewVehicleToTheGarage();
+                            addNewVehicleToTheGarage();
                             break;
                         case eGarageMenuOptions.ShowVehicleLicenseNumbers:
                             this.showVehicleLicenseNumber();
@@ -45,7 +47,6 @@ namespace Ex03.ConsoleUI
                             break;
                         case eGarageMenuOptions.Exit:
                             stayInTheGarage = false;
-                            Console.WriteLine("Goodbye, Thank you for choosing our garage");
                             break;
                         default:
                             Console.WriteLine("Invalid number! Please try again");
@@ -94,9 +95,12 @@ Please enter your choice number:
 8. Exit menu
 --------------------------------------------------------"));
         }
+
         private void setVehicleEnergySource()
         {
             bool isValidInput = false;
+            eVehicleEnergyTypes vehicleEnergyType;
+            string vehicleEnergySourceInput;
 
             while (!isValidInput)
             {
@@ -104,9 +108,7 @@ Please enter your choice number:
         0 - Fuel
         1 - Electric
         "));
-                string vehicleEnergySourceInput = Console.ReadLine();
-                eVehicleEnergyTypes vehicleEnergyType;
-
+                vehicleEnergySourceInput = Console.ReadLine();
                 if (!(Enum.TryParse(vehicleEnergySourceInput, out vehicleEnergyType)
                 && Enum.IsDefined(typeof(eVehicleEnergyTypes), vehicleEnergyType)))
                 {
@@ -130,13 +132,13 @@ Please enter your choice number:
         private void setCurrentEnergySourceQuantity()
         {
             bool isValidInput = false;
+            string energySourceQuantityInput;
+            float energySourceQuantity;
 
             while (!isValidInput)
             {
                 Console.WriteLine("Please enter your current energy source quantity: ");
-                string energySourceQuantityInput = Console.ReadLine();
-                float energySourceQuantity = 0f;
-
+                energySourceQuantityInput = Console.ReadLine();
                 if (!(float.TryParse(energySourceQuantityInput, out energySourceQuantity) 
                     &&  energySourceQuantity <= this.m_NewVehicle.VehicleEnergySource.MaxEnergyAmount 
                     && energySourceQuantity > 0))
@@ -151,7 +153,7 @@ Please enter your choice number:
             }
         }
 
-        private void SetVehicleInformation()
+        private void setVehicleInformation()
         {
             Console.WriteLine("Please enter your name: ");
             string ownerName = Console.ReadLine();
@@ -175,7 +177,7 @@ Please enter your choice number:
             m_NewVehicle.SetVehicleInformation(ownerName, ownerPhoneNumber);
         }
 
-        private void SetWheelsInformation()
+        private void setWheelsInformation()
         {
             bool isValidInput = false;
             string airPressureInput;
@@ -197,25 +199,26 @@ Please enter your choice number:
 
                 Console.WriteLine("Please enter the wheel's manufacturer:");
                 string manufacturerName = Console.ReadLine();
-
                 this.m_NewVehicle.SetWheelsManifacturerName(manufacturerName);
             }
         }
 
-        private void SetUniqueProperties(Dictionary<int, string> i_Messages)
+        private void setUniqueProperties(Dictionary<int, string> i_Messages)
         {
+            bool isValidInput;
+            string userInput;
+
             foreach (KeyValuePair<int, string> pair in i_Messages)
             {
-                bool isValidInput = false;
-
+                isValidInput = false;
                 while (!isValidInput)
                 {
                     Console.WriteLine($"Please enter {pair.Value}");
-                    string userInput = Console.ReadLine();
+                    userInput = Console.ReadLine();
                     isValidInput = m_NewVehicle.SetSpecificInformation(userInput, pair.Key);
                     if (!isValidInput)
                     {
-                        Console.WriteLine("Invalid Input!");
+                        Console.WriteLine("Invalid Input");
                     }
                 }
             }
@@ -256,6 +259,7 @@ Please enter your choice number:
 
         private void updateVehicleStatusInGarage()
         {
+            eVehicleStatuses newVehicleStatus;
             string licenseNumber = getLicenseNumberFromUser();
 
             Console.WriteLine(string.Format(@"Please enter the new vehicle status: 
@@ -264,7 +268,6 @@ Please enter your choice number:
         2 - Paid
         "));
             string newVehicleStatusInput = Console.ReadLine();
-            eVehicleStatuses newVehicleStatus;
 
             if (!(Enum.TryParse(newVehicleStatusInput, out newVehicleStatus)
                 && Enum.IsDefined(typeof(eVehicleStatuses), newVehicleStatus)))
@@ -292,6 +295,7 @@ Please enter your choice number:
         private void inflateWheels()
         {
             string licenseNumber = getLicenseNumberFromUser();
+
             this.r_GarageManager.InflateVehicleWheels(licenseNumber);
             Console.WriteLine("The wheels were inflated to the max");
         }
@@ -299,6 +303,9 @@ Please enter your choice number:
         private void fillFuelVehicle()
         {
             string licenseNumber = getLicenseNumberFromUser();
+            float fuelAmount;
+            eFuelTypes fuelType;
+            string fuelTypeInput;
 
             if (this.r_GarageManager.GetVehicleEnergyType(licenseNumber) != eVehicleEnergyTypes.Fuel)
             {
@@ -310,9 +317,7 @@ Please enter your choice number:
         1 - Octan95,
         2 - Octan96,
         3 - Octan98");
-            string fuelTypeInput = Console.ReadLine();
-            eFuelTypes fuelType;
-
+            fuelTypeInput = Console.ReadLine();
             if (!(Enum.TryParse(fuelTypeInput, out fuelType)
                 && Enum.IsDefined(typeof(eFuelTypes), fuelType)))
             {
@@ -320,8 +325,6 @@ Please enter your choice number:
             }
 
             Console.WriteLine("Please enter the fuel amount to fill: ");
-            float fuelAmount;
-
             if (!float.TryParse(Console.ReadLine(), out fuelAmount))
             {
                 throw new FormatException("The given input is not a number");
@@ -333,6 +336,7 @@ Please enter your choice number:
         private void chargeElectricVehicle()
         {
             string licenseNumber = getLicenseNumberFromUser();
+            float fuelAmount;
 
             if (this.r_GarageManager.GetVehicleEnergyType(licenseNumber) != eVehicleEnergyTypes.Electric)
             {
@@ -340,8 +344,6 @@ Please enter your choice number:
             }
 
             Console.WriteLine("Please enter the minutes to charge: ");
-            float fuelAmount;
-
             if (!float.TryParse(Console.ReadLine(), out fuelAmount))
             {
                 throw new FormatException("The given input is not a number");
@@ -354,10 +356,10 @@ Please enter your choice number:
         {
             string licenseNumber = getLicenseNumberFromUser();
 
-            Console.WriteLine(this.r_GarageManager.getFullVehicleInformation(licenseNumber));
+            Console.WriteLine(this.r_GarageManager.GetFullVehicleInformation(licenseNumber));
         }
 
-        public void AddNewVehicleToTheGarage()
+        private void addNewVehicleToTheGarage()
         {
             Console.WriteLine("Please insert your vehicle license number: ");
             string licenseNumber = Console.ReadLine();
@@ -370,19 +372,19 @@ Please enter your choice number:
                 return;
             }
 
-            AddVehicle(licenseNumber);
+            this.addVehicle(licenseNumber);
             this.setVehicleEnergySource();
             this.setCurrentEnergySourceQuantity();
             this.m_NewVehicle.SetNewVehicleStatus();
-            this.SetVehicleInformation();
-            this.SetWheelsInformation();
+            this.setVehicleInformation();
+            this.setWheelsInformation();
             this.m_NewVehicle.SetSpecificInformationMessages();
-            SetUniqueProperties(m_NewVehicle.GetSpecificInformation());
+            setUniqueProperties(m_NewVehicle.GetSpecificInformation());
             this.r_GarageManager.AddNewVehicle(m_NewVehicle);
             Console.WriteLine("You vehicle was registered successfuly to our garage.");
         }
 
-        public void AddVehicle(string i_LicenseNumber)
+        private void addVehicle(string i_LicenseNumber)
         {
             Console.WriteLine("Please enter your vehicle's model: ");
             string model = Console.ReadLine();
@@ -396,7 +398,7 @@ Please enter your choice number:
                 optionNumber = 0;
                 foreach (eVehicleTypes typeOfVehicle in Enum.GetValues(typeof(eVehicleTypes)))
                 {
-                    Console.WriteLine($"For {typeOfVehicle} enter {optionNumber}");
+                    Console.WriteLine($"\t{optionNumber} - {typeOfVehicle}");
                     optionNumber++;
                 }
 
@@ -412,7 +414,6 @@ Please enter your choice number:
                     isValidInput = true;
                     m_NewVehicle = VehicleCreator.CreateVehicle(model, i_LicenseNumber, (eVehicleTypes)vehicleType);
                 }
-
             }
         }
     }

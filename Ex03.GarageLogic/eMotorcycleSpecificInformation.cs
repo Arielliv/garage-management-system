@@ -2,7 +2,7 @@
 {
     public enum eMotorcycleSpecificInformation
     {
-        LicenseType,
-        EngineCapacity
+        LicenseType = 0,
+        EngineCapacity = 1
     }
 }

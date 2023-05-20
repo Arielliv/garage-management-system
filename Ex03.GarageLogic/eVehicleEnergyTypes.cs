@@ -2,7 +2,7 @@
 {
     public enum eVehicleEnergyTypes
     {
-        Fuel,
-        Electric
+        Fuel = 0,
+        Electric = 1
     }
 }

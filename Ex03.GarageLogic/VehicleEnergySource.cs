@@ -16,7 +16,5 @@
             get { return this.m_MaxEnergyAmount; }
             set { this.m_MaxEnergyAmount = value; }
         }
-
-        public abstract string GetInfo();
     }
 }

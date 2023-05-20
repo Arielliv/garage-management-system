@@ -5,6 +5,7 @@
         public static void Main()
         {
             ConsoleManager consoleManager = new ConsoleManager();
+
             consoleManager.GarageManager();
         }
     }

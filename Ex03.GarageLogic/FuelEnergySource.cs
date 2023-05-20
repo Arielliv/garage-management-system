@@ -3,27 +3,28 @@ using System.Text;
 
 namespace Ex03.GarageLogic
 {
-    public class FuelEnergySource : VehicleEnergySource
+    internal class FuelEnergySource : VehicleEnergySource
     {
-        private readonly eFuelTypes m_FuelType;
+        private readonly eFuelTypes r_FuelType;
 
-        public FuelEnergySource(eFuelTypes i_FuelType): base()
+        internal FuelEnergySource(eFuelTypes i_FuelType): base()
         {
-            this.m_FuelType = i_FuelType;
+            this.r_FuelType = i_FuelType;
         }
 
-        public void FillFuel(float i_AmountToFill, eFuelTypes i_FuelType)
+        internal void FillFuel(float i_AmountToFill, eFuelTypes i_FuelType)
         {
-            if(i_FuelType != this.m_FuelType)
+            float potentialFuelAmount;
+
+            if (i_FuelType != this.r_FuelType)
             {
                 throw new ArgumentException("The given fuel type is invalid for the selected vehicle");
             }
 
-            float potentialFuelAmount = base.CurrentEnergyAmount + i_AmountToFill;
-
+            potentialFuelAmount = base.CurrentEnergyAmount + i_AmountToFill;
             if (potentialFuelAmount > base.MaxEnergyAmount)
             {
-                throw new ArgumentException("The given amount to fill is passing the max");
+                throw new ValueOutOfRangeException(0, base.MaxEnergyAmount);
             } 
             else
             {
@@ -31,12 +32,12 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public override string GetInfo()
+        public override string ToString()
         {
             StringBuilder info = new StringBuilder();
 
             info.Append($"The current fuel amount is: {base.CurrentEnergyAmount}\n");
-            info.Append($"The fuel type is: {this.m_FuelType}\n");
+            info.Append($"The fuel type is: {this.r_FuelType}\n");
 
             return info.ToString();
         }

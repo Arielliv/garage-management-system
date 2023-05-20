@@ -1,6 +1,6 @@
 ﻿namespace Ex03.ConsoleUI
 {
-    internal enum eGarageMenuOptions
+    public enum eGarageMenuOptions
     {
         AddNewVehicle = 1,
         ShowVehicleLicenseNumbers = 2,

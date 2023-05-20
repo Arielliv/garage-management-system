@@ -36,16 +36,15 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\B23 Ex03 Ariel 315363366 Adi 206820045\Ex03.GarageLogic.csproj">
+    <Compile Include="ConsoleManager.cs" />
+    <Compile Include="eGarageMenuOptions.cs" />
+    <Compile Include="Program.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Ex03.GarageLogic\Ex03.GarageLogic.csproj">
       <Project>{e5af76cf-c4fd-4138-b6e7-eceac8eaf80a}</Project>
       <Name>Ex03.GarageLogic</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="ConsoleManager.cs" />
-    <Compile Include="eGarageMenuOptions.cs" />
-    <Compile Include="InputValidations.cs" />
-    <Compile Include="Program.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
