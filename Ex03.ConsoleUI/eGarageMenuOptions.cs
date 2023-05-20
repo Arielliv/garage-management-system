@@ -2,13 +2,13 @@
 {
     internal enum eGarageMenuOptions
     {
-        AddNewVehicle = 0,
-        ShowVehicleLicenseNumbers = 1,
-        UpdateVehicleStatus = 2,
-        InflateWheels = 3,
-        FillFuelVehicle = 4,
-        ChargeElectricVehicle = 5,
-        ShowFullVehicleInformation = 6,
-        Exit = 7
+        AddNewVehicle = 1,
+        ShowVehicleLicenseNumbers = 2,
+        UpdateVehicleStatus = 3,
+        InflateWheels = 4,
+        FillFuelVehicle = 5,
+        ChargeElectricVehicle = 6,
+        ShowFullVehicleInformation = 7,
+        Exit = 8
     }
 }

@@ -35,8 +35,8 @@ namespace Ex03.GarageLogic
         {
             StringBuilder info = new StringBuilder();
 
-            info.Append($"The current fuel amount is: {base.CurrentEnergyAmount}");
-            info.Append($"The fuel type is: {this.m_FuelType}");
+            info.Append($"The current fuel amount is: {base.CurrentEnergyAmount}\n");
+            info.Append($"The fuel type is: {this.m_FuelType}\n");
 
             return info.ToString();
         }

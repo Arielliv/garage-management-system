@@ -2,9 +2,9 @@
 {
     public enum eCarDoorsAmounts
     {
-        Two,
-        Three,
-        Four,
-        Five
+        Two = 0,
+        Three = 1,
+        Four = 2,
+        Five = 3
     }
 }

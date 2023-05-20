@@ -17,14 +17,14 @@ namespace Ex03.GarageLogic
         internal Motorcycle(string i_ModelName, string i_LicenseNumber) :
     base(i_ModelName, i_LicenseNumber, k_WheelsAmount, k_WheelsMaxAirPressure) { }
 
-        public override string GetInfo()
+        public override string GetInformation()
         {
             StringBuilder info = new StringBuilder();
 
-            info.Append($"This is a Car");
-            info.Append(base.GetInfo());
-            info.Append($"Its license type is: {this.getLicenseTypes()}");
-            info.Append($"Its engine capacity is: {this.m_EngineCapacity}");
+            info.Append($"This is a Car\n");
+            info.Append(base.GetInformation()).Append("\n");
+            info.Append($"Its license type is: {this.getLicenseTypes()}\n");
+            info.Append($"Its engine capacity is: {this.m_EngineCapacity}\n");
 
             return info.ToString();
         }
@@ -81,6 +81,15 @@ namespace Ex03.GarageLogic
             }
 
             return isSuccessful;
+        }
+
+        public override void SetSpecificInformationMessages()
+        {
+            base.r_SpecificInformationMessages.Add((int)eMotorcycleSpecificInformation.EngineCapacity,
+                "the motocycle's engine capacity: ");
+            base.r_SpecificInformationMessages.Add((int)eMotorcycleSpecificInformation.LicenseType,
+                "the motorcycle license type, press " +
+                "0 - A1, 1 - A2, 2 - AA, 3 - B1: ");
         }
 
         public override void SetVehicleEnergyAsFuel()

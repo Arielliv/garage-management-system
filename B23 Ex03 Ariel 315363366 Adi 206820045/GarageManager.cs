@@ -88,7 +88,7 @@ namespace Ex03.GarageLogic
 
         public string getFullVehicleInformation(string i_LicenseNumber)
         {
-            return this.GetVehicleFromGarage(i_LicenseNumber).GetInfo();   
+            return this.GetVehicleFromGarage(i_LicenseNumber).GetInformation();   
         }
     }
 }

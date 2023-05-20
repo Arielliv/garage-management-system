@@ -2,8 +2,8 @@
 {
     public enum eVehicleStatuses
     {
-        InRepair,
-        Repaired,
-        Paied
+        InRepair = 0,
+        Repaired = 1,
+        Paied = 2
     }
 }

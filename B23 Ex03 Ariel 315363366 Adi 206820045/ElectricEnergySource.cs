@@ -23,7 +23,7 @@ namespace Ex03.GarageLogic
         {
             StringBuilder info = new StringBuilder();
 
-            info.Append($"The current energy minutes is: {base.CurrentEnergyAmount}");
+            info.Append($"The current energy minutes is: {base.CurrentEnergyAmount}\n");
 
             return info.ToString();
         }

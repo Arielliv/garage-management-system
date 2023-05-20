@@ -35,7 +35,7 @@ namespace Ex03.GarageLogic
             {
                 float cargoVolume;
 
-                if (Enum.TryParse(i_Message, out cargoVolume))
+                if (float.TryParse(i_Message, out cargoVolume))
                 {
                     isSuccessful = true;
                     this.m_CargoVolume = cargoVolume;
@@ -45,14 +45,22 @@ namespace Ex03.GarageLogic
             return isSuccessful;
         }
 
-        public override string GetInfo()
+        public override void SetSpecificInformationMessages()
+        {
+            base.r_SpecificInformationMessages.Add((int)eTruckSpecificInformation.CargoVolume,
+                "the trucks's cargo volume: ");
+            base.r_SpecificInformationMessages.Add((int)eTruckSpecificInformation.TransportsHazardousMaterials,
+                "does your truck transport hazardous materials? True/False: ");
+        }
+
+        public override string GetInformation()
         {
             StringBuilder info = new StringBuilder();
 
-            info.Append($"This is a Truck");
-            info.Append(base.GetInfo());
-            info.Append(this.m_TransportsHazardousMaterials ? "It transports hazardous materials": "It doesn`t transport hazardous materials");
-            info.Append($"The cargo volume is: {this.m_CargoVolume}");
+            info.Append($"This is a Truck\n");
+            info.Append(base.GetInformation());
+            info.Append(this.m_TransportsHazardousMaterials ? "It transports hazardous materials": "It doesn`t transport hazardous materials\n");
+            info.Append($"The cargo volume is: {this.m_CargoVolume}\n");
 
             return info.ToString();
         }
@@ -65,7 +73,7 @@ namespace Ex03.GarageLogic
 
         public override void SetVehicleEnergyAsElectric()
         {
-            base.VehicleEnergySource = new ElectricEnergySource();
+            throw new Exception("Unfortunately we don't support electric truck");
         }
     }
 }

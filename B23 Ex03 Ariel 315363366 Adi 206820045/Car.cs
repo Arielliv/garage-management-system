@@ -46,14 +46,25 @@ namespace Ex03.GarageLogic
 
             return isSuccessful;
         }
-        public override string GetInfo()
+
+        public override void SetSpecificInformationMessages()
+        {
+            base.r_SpecificInformationMessages.Add((int)eCarSpecificInformation.Color,
+                "the color of your car, press " +
+                "0 - White, 1 - Black, 2 - Yellow, 3 - Red: ");
+            base.r_SpecificInformationMessages.Add((int)eCarSpecificInformation.DoorsNumber,
+                "the number of doors in your car, press " +
+                "0 - Two, 1 - Three, 2 - Four, 3 - Five: ");
+        }
+
+        public override string GetInformation()
         {
             StringBuilder info = new StringBuilder();
 
-            info.Append($"This is a Car");
-            info.Append(base.GetInfo());
-            info.Append($"Its color is: {this.getCarColor()}");
-            info.Append($"Its doors amount is: {this.getCarDoorsAmount()}");
+            info.Append($"This is a Car\n");
+            info.Append(base.GetInformation()).Append("\n");
+            info.Append($"Its color is: {this.getCarColor()}\n");
+            info.Append($"Its doors amount is: {this.getCarDoorsAmount()}\n");
 
             return info.ToString();
         }

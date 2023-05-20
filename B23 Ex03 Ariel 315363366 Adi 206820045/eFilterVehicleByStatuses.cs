@@ -2,9 +2,9 @@
 {
     public enum eFilterVehicleByStatuses
     {
-        All = 0,
-        InRepair = 1,
-        Repaired = 2,
-        Paied = 3
+        InRepair = 0,
+        Repaired = 1,
+        Paied = 2,
+        All = 3,
     }
 }
